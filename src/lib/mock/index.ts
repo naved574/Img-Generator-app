@@ -40,18 +40,18 @@ export type MockModel = {
 };
 
 const seededImages = [
-  "https://images.unsplash.com/photo-1675426513302-77dad5d6e7f7?w=900&q=80",
-  "https://images.unsplash.com/photo-1682687982107-14492010e05e?w=900&q=80",
-  "https://images.unsplash.com/photo-1684164562270-5d0a1d2f3bb9?w=900&q=80",
-  "https://images.unsplash.com/photo-1693758894267-22e88060a5e1?w=900&q=80",
-  "https://images.unsplash.com/photo-1707343843437-caacff5cfa74?w=900&q=80",
-  "https://images.unsplash.com/photo-1693758894214-3edfa9c30c2f?w=900&q=80",
+  "https://cdn.pixabay.com/photo/2024/06/25/13/12/woman-8852664_1280.jpg?w=900&q=80",
+  "https://cdn.pixabay.com/photo/2024/06/06/22/19/piece-8813495_1280.png?w=900&q=80",
+  "https://cdn.pixabay.com/photo/2026/05/14/03/06/03-06-32-708_1280.jpg",
+  "https://cdn.pixabay.com/photo/2024/07/24/17/48/woman-8918982_1280.jpg",
+  "https://cdn.pixabay.com/photo/2023/11/10/02/30/woman-8378634_1280.jpg",
+  "https://cdn.pixabay.com/photo/2026/03/01/23/16/23-16-29-429_1280.jpg",
+  "https://cdn.pixabay.com/photo/2014/02/02/01/10/picadilly-circus-256501_1280.jpg",
+  "https://cdn.pixabay.com/photo/2025/09/23/05/50/girl-9849748_1280.jpg",
   "https://images.unsplash.com/photo-1717501218385-55bc3a95be94?w=900&q=80",
-  "https://images.unsplash.com/photo-1675426513026-de817cdf08d6?w=900&q=80",
-  "https://images.unsplash.com/photo-1707343844152-6d33a0bb29d3?w=900&q=80",
-  "https://images.unsplash.com/photo-1717501219716-b54c5b9b1f30?w=900&q=80",
-  "https://images.unsplash.com/photo-1682687218904-de46ed992b1b?w=900&q=80",
-  "https://images.unsplash.com/photo-1693758894267-22e88060a5e1?w=900&q=80",
+  "https://images.unsplash.com/photo-1682687982107-14492010e05e?w=900&q=80",
+  "https://images.unsplash.com/photo-1707343843437-caacff5cfa74?w=900&q=80",
+  "https://media.istockphoto.com/id/1002079442/photo/attractive-girl-with-tattoos-looking-away-and-posing-at-street.jpg?s=612x612&w=0&k=20&c=eR2S5-FTvWDflbE1RcNFsAWqA2gjn_AeQ_0vFBMeeKs=",
 ];
 
 const prompts = [

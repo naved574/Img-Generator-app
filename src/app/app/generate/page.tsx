@@ -89,6 +89,7 @@ export default function GeneratePage() {
 
   return (
     <AppShell credits={credits.data?.balance ?? null}>
+      
       <div className="grid h-full min-h-screen md:grid-cols-[280px_1fr]">
         {/* Control rail */}
         <aside className="hairline-r overflow-y-auto p-5 scrollbar-thin">
@@ -109,7 +110,7 @@ export default function GeneratePage() {
             </select>
           </div>
 
-          <div className="mt-5">
+          <div className="mt-2">
             <Label className="text-xs">Aspect ratio</Label>
             <div className="mt-2 grid grid-cols-3 gap-1.5">
               {ASPECT_RATIOS.map((a) => {
@@ -212,11 +213,11 @@ export default function GeneratePage() {
         <section className="p-6 md:p-10">
           <div className="mx-auto max-w-3xl">
             <h1 className="font-display text-3xl font-semibold tracking-tight">Generate</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            {/* <p className="mt-1 text-sm text-muted-foreground">
               10 credits per image · {credits.data?.balance ?? "…"} available
-            </p>
+            </p> */}
 
-            <div className="mt-6 rounded-2xl border border-border bg-surface p-5">
+            <div className="position-fixed mt-6 rounded-2xl border border-border bg-surface p-5">
               <Textarea
                 value={gen.prompt}
                 onChange={(e) => gen.setPrompt(e.target.value)}

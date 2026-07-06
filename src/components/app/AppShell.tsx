@@ -55,12 +55,12 @@ export function AppShell({ children, credits }: { children: ReactNode; credits?:
         className="group/sidebar fixed inset-y-0 left-0 z-40 hidden w-16 flex-col overflow-hidden border-r border-border transition-[width] duration-200 ease-out hover:w-60 md:flex"
         style={{ background: "var(--color-sidebar)" }}
       >
-        <Link href="/" className="flex h-16 items-center gap-2 px-5 border-b border-border">
+        <Link href="/" className="flex h-16 items-center gap-2 px-4 border-b border-border">
           <div className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-foreground text-background">
             <Sparkles className="h-3.5 w-3.5" />
           </div>
           <span className="whitespace-nowrap font-display text-lg font-semibold opacity-0 transition-opacity duration-200 group-hover/sidebar:opacity-100">
-            Lumen
+            Dev.Naved
           </span>
         </Link>
 
@@ -77,18 +77,11 @@ export function AppShell({ children, credits }: { children: ReactNode; credits?:
           {SECONDARY.map((n) => (
             <SidebarItem key={n.to} {...n} active={isActive(n.to)} />
           ))}
-        </nav>
+        
 
-        <div className="border-t border-border p-2">
-          {credits != null && (
-            <div className="mb-2 rounded-lg bg-surface p-2.5">
-              <p className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground opacity-0 transition-opacity duration-200 group-hover/sidebar:opacity-100">
-                Credits
-              </p>
-              <p className="font-display text-xl font-semibold leading-tight">{credits}</p>
-            </div>
-          )}
-          <div className="flex items-center gap-2 rounded-lg px-1.5 py-1.5">
+        <div className="border-t border-border p-1">
+          
+          <div className="flex items-center gap-2 rounded-lg py-1.5">
             <div className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface-elevated text-sm font-medium">
               {(user?.email?.[0] ?? "U").toUpperCase()}
             </div>
@@ -104,6 +97,7 @@ export function AppShell({ children, credits }: { children: ReactNode; credits?:
             </button>
           </div>
         </div>
+        </nav>
       </aside>
 
       {/* Topbar (mobile) */}
