@@ -1,4 +1,4 @@
-import { Schema, model, models, Types, type InferSchemaType } from "mongoose";
+import mongoose, { Schema, model, Types, type InferSchemaType } from "mongoose";
 
 const generationSchema = new Schema(
   {
@@ -24,4 +24,4 @@ export type GenerationDocument = InferSchemaType<typeof generationSchema> & {
   userId: Types.ObjectId;
 };
 
-export const Generation = models.Generation || model("Generation", generationSchema);
+export const Generation = mongoose.models.Generation || model("Generation", generationSchema);

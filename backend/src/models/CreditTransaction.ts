@@ -1,4 +1,4 @@
-import { Schema, model, models, Types, type InferSchemaType } from "mongoose";
+import mongoose, { Schema, model, Types, type InferSchemaType } from "mongoose";
 
 const creditTransactionSchema = new Schema(
   {
@@ -17,4 +17,4 @@ export type CreditTransactionDocument = InferSchemaType<typeof creditTransaction
 };
 
 export const CreditTransaction =
-  models.CreditTransaction || model("CreditTransaction", creditTransactionSchema);
+  mongoose.models.CreditTransaction || model("CreditTransaction", creditTransactionSchema);

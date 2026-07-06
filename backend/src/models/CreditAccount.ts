@@ -1,4 +1,4 @@
-import { Schema, model, models, Types, type InferSchemaType } from "mongoose";
+import mongoose, { Schema, model, Types, type InferSchemaType } from "mongoose";
 
 const creditAccountSchema = new Schema(
   {
@@ -16,4 +16,4 @@ export type CreditAccountDocument = InferSchemaType<typeof creditAccountSchema> 
   userId: Types.ObjectId;
 };
 
-export const CreditAccount = models.CreditAccount || model("CreditAccount", creditAccountSchema);
+export const CreditAccount = mongoose.models.CreditAccount || model("CreditAccount", creditAccountSchema);
