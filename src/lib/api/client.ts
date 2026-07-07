@@ -1,4 +1,13 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
+const DEFAULT_API_BASE_URL = "https://focused-mindfulness-production-10b9.up.railway.app";
+
+function normalizeApiBaseUrl(url: string) {
+  const withProtocol = /^https?:\/\//i.test(url) ? url : `https://${url}`;
+  return withProtocol.replace(/\/+$/, "");
+}
+
+const API_BASE_URL = normalizeApiBaseUrl(
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+);
 
 let accessToken: string | null =
   typeof window !== "undefined" ? window.localStorage.getItem("lumen_access_token") : null;
