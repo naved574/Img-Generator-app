@@ -30,17 +30,25 @@ export function signRefreshToken(payload: TokenPayload) {
 }
 
 export async function setRefreshCookie(res: Response, token: string) {
+  const isProduction = process.env.NODE_ENV === "production";
+
   res.cookie(REFRESH_COOKIE, token, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    sameSite: isProduction ? "none" : "lax",
+    secure: isProduction,
     maxAge: 30 * 24 * 60 * 60 * 1000,
     path: "/",
   });
 }
 
 export function clearRefreshCookie(res: Response) {
-  res.clearCookie(REFRESH_COOKIE, { path: "/" });
+  const isProduction = process.env.NODE_ENV === "production";
+
+  res.clearCookie(REFRESH_COOKIE, {
+    path: "/",
+    sameSite: isProduction ? "none" : "lax",
+    secure: isProduction,
+  });
 }
 
 export function getRefreshCookie(cookies: Record<string, unknown>) {

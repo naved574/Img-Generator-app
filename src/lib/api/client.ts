@@ -19,6 +19,10 @@ export function setAccessToken(token: string | null) {
   else window.localStorage.removeItem("lumen_access_token");
 }
 
+export function getAccessToken() {
+  return accessToken;
+}
+
 export class ApiError extends Error {
   constructor(
     message: string,

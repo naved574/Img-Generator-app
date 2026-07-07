@@ -1,5 +1,5 @@
-import { api, setAccessToken } from "./client";
-import type { AuthResponse } from "./types";
+import { api, getAccessToken, setAccessToken } from "./client";
+import type { ApiUser, AuthResponse } from "./types";
 
 export async function signup(input: { name: string; email: string; password: string }) {
   const session = await api<AuthResponse>("/api/auth/signup", { method: "POST", body: input });
@@ -19,7 +19,15 @@ export async function logout() {
 }
 
 export async function me() {
-  const session = await api<AuthResponse>("/api/auth/me");
-  setAccessToken(session.accessToken);
-  return session;
+  try {
+    const session = await api<AuthResponse>("/api/auth/me");
+    setAccessToken(session.accessToken);
+    return session;
+  } catch (error) {
+    const accessToken = getAccessToken();
+    if (!accessToken) throw error;
+
+    const session = await api<{ user: ApiUser }>("/api/auth/session");
+    return { user: session.user, accessToken };
+  }
 }
