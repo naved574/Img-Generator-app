@@ -5,5 +5,5 @@ import { app } from "./app.js";
 await connectMongo();
 
 app.listen(env.PORT, () => {
-  console.log(`Lumen backend listening on http://localhost:${env.PORT}`);
+  console.log(`Zenivra backend listening on http://localhost:${env.PORT}`);
 });

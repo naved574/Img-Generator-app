@@ -60,7 +60,7 @@ export function AppShell({ children, credits }: { children: ReactNode; credits?:
             <Sparkles className="h-3.5 w-3.5" />
           </div>
           <span className="whitespace-nowrap font-display text-lg font-semibold opacity-0 transition-opacity duration-200 group-hover/sidebar:opacity-100">
-            Dev.Naved
+            Zenivra
           </span>
         </Link>
 
@@ -106,7 +106,7 @@ export function AppShell({ children, credits }: { children: ReactNode; credits?:
           <div className="grid h-6 w-6 place-items-center rounded bg-foreground text-background">
             <Sparkles className="h-3 w-3" />
           </div>
-          <span className="font-display font-semibold">Lumen</span>
+          <span className="font-display font-semibold">Zenivra</span>
         </Link>
         {credits != null && (
           <span className="font-mono text-xs text-muted-foreground">{credits} cr</span>

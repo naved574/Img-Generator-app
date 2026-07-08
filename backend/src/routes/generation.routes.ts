@@ -59,7 +59,7 @@ generationRouter.post("/", generationRateLimit, async (req, res, next) => {
       cfg: data.cfg,
     });
 
-    const uploaded = await uploadImageBuffer(generated.buffer, `lumen/generations/${user.id}`);
+    const uploaded = await uploadImageBuffer(generated.buffer, `zenivra/generations/${user.id}`);
     const doc = await Generation.create({
       userId: user.objectId,
       prompt: data.prompt,

@@ -25,7 +25,7 @@ export function AuthShell({
           <div className="grid h-7 w-7 place-items-center rounded-md bg-foreground text-background">
             <Sparkles className="h-3.5 w-3.5" />
           </div>
-          <span className="font-display text-lg font-semibold">Lumen</span>
+          <span className="font-display text-lg font-semibold">Zenivra</span>
         </Link>
         <div>
           <p className="font-display text-4xl font-semibold leading-tight max-w-md">
@@ -35,7 +35,7 @@ export function AuthShell({
             50 free credits daily on signup. No card required.
           </p>
         </div>
-        <p className="font-mono text-xs text-muted-foreground">© 2026 Lumen Labs</p>
+        <p className="font-mono text-xs text-muted-foreground">© 2026 Zenivra Labs</p>
       </div>
       <div className="relative flex items-center justify-center px-6 py-12">
         <div className="absolute left-4 top-4">
@@ -46,7 +46,7 @@ export function AuthShell({
             <div className="grid h-7 w-7 place-items-center rounded-md bg-foreground text-background">
               <Sparkles className="h-3.5 w-3.5" />
             </div>
-            <span className="font-display text-lg font-semibold">Lumen</span>
+            <span className="font-display text-lg font-semibold">Zenivra</span>
           </Link>
           <h1 className="text-3xl font-display font-semibold">{title}</h1>
           {subtitle && <p className="mt-2 text-sm text-muted-foreground">{subtitle}</p>}

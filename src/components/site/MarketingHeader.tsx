@@ -33,7 +33,7 @@ export function MarketingHeader() {
             <div className="grid h-7 w-7 place-items-center rounded-md bg-foreground text-background">
               <Sparkles className="h-3.5 w-3.5" />
             </div>
-            <span className="font-display text-lg font-semibold tracking-tight">Dev.Naved</span>
+            <span className="font-display text-lg font-semibold tracking-tight">Zenivra</span>
           </Link>
           <nav className="hidden items-center gap-8 md:flex">
             <ToolsMenu />
@@ -101,7 +101,7 @@ export function MarketingFooter() {
             <div className="grid h-7 w-7 place-items-center rounded-md bg-foreground text-background">
               <Sparkles className="h-3.5 w-3.5" />
             </div>
-            <span className="font-display text-lg font-semibold">Dev.Naved</span>
+            <span className="font-display text-lg font-semibold">Zenivra</span>
           </div>
           <p className="mt-4 max-w-sm text-sm text-muted-foreground">
             The creator-first AI platform. Generate, remix, share, and monetize.
@@ -146,11 +146,11 @@ export function MarketingFooter() {
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
             Built with
           </p>
-          <p className="mt-4 text-sm text-muted-foreground">Dev.Naved</p>
+          <p className="mt-4 text-sm text-muted-foreground">Zenivra</p>
         </div>
       </div>
       <div className="hairline-t mx-auto flex max-w-7xl items-center justify-between px-6 py-6 text-xs text-muted-foreground">
-        <span>© 2026 Dev.Naved Labs</span>
+        <span>© 2026 Zenivra Labs</span>
         <span className="font-mono">v1.0 · all systems operational</span>
       </div>
     </footer>

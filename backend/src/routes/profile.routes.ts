@@ -60,7 +60,7 @@ profileRouter.post("/avatar", async (req, res, next) => {
 
     const profile = assertFound(await Profile.findOne({ userId: user.objectId }), "Profile not found");
     const buffer = Buffer.from(match[2], "base64");
-    const uploaded = await uploadImageBuffer(buffer, `lumen/avatars/${user.id}`);
+    const uploaded = await uploadImageBuffer(buffer, `zenivra/avatars/${user.id}`);
     await deleteImage(profile.avatarPublicId);
 
     profile.avatarUrl = uploaded.secure_url;

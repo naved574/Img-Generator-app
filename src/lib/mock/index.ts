@@ -69,7 +69,7 @@ const prompts = [
   "noir detective in rainy alley, chiaroscuro",
 ];
 
-const creators = ["nyra", "kestrel", "vex_void", "aoi", "marble.io", "renra", "zane", "lumen"];
+const creators = ["nyra", "kestrel", "vex_void", "aoi", "marble.io", "renra", "zane", "sora"];
 
 export const mockCreators: MockCreator[] = creators.map((handle, i) => ({
   handle,
@@ -112,7 +112,7 @@ export const mockMarketplace: MockListing[] = Array.from({ length: 18 }).map((_,
 export const mockModels: MockModel[] = [
   { id: "imagine-v3", name: "Imagine v3", family: "Imagine", description: "Versatile general-purpose model. Strong on photorealism and concept art.", speed: "balanced", badge: "Popular" },
   { id: "imagine-turbo", name: "Imagine Turbo", family: "Imagine", description: "Fast iterations. 2 seconds per image. Lower fidelity.", speed: "fast" },
-  { id: "lumen-pro", name: "Lumen Pro", family: "Lumen", description: "Premium quality, slower. Best for finished art.", speed: "quality", badge: "Pro" },
+  { id: "zenivra-pro", name: "Zenivra Pro", family: "Zenivra", description: "Premium quality, slower. Best for finished art.", speed: "quality", badge: "Pro" },
   { id: "anime-mix", name: "Anime Mix v2", family: "Style", description: "Tuned for anime, manga, and illustration.", speed: "balanced" },
   { id: "photo-real", name: "PhotoReal", family: "Style", description: "Hyper-realistic photography aesthetic.", speed: "quality" },
   { id: "vector-flat", name: "Vector Flat", family: "Style", description: "Clean vector and flat-design output.", speed: "fast" },
@@ -122,7 +122,7 @@ export const mockNotifications = [
   { id: "n1", text: "vex_void remixed your image “neon rain portrait”", time: "12m ago", read: false },
   { id: "n2", text: "Your “Neo-Tokyo Pack” listing made 3 sales", time: "1h ago", read: false },
   { id: "n3", text: "Weekly recap: 84 generations, 12 favorites", time: "Yesterday", read: true },
-  { id: "n4", text: "New model available: Lumen Pro", time: "2d ago", read: true },
+  { id: "n4", text: "New model available: Zenivra Pro", time: "2d ago", read: true },
 ];
 
 export function liveFeedItems(n = 8) {

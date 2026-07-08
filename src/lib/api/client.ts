@@ -10,13 +10,13 @@ const API_BASE_URL = normalizeApiBaseUrl(
 );
 
 let accessToken: string | null =
-  typeof window !== "undefined" ? window.localStorage.getItem("lumen_access_token") : null;
+  typeof window !== "undefined" ? window.localStorage.getItem("Zenivra_access_token") : null;
 
 export function setAccessToken(token: string | null) {
   accessToken = token;
   if (typeof window === "undefined") return;
-  if (token) window.localStorage.setItem("lumen_access_token", token);
-  else window.localStorage.removeItem("lumen_access_token");
+  if (token) window.localStorage.setItem("Zenivra_access_token", token);
+  else window.localStorage.removeItem("Zenivra_access_token");
 }
 
 export function getAccessToken() {

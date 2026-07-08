@@ -65,7 +65,7 @@ export function ImageViewer({ images, activeIndex, onClose, onIndexChange }: Pro
   const download = () => {
     const a = document.createElement("a");
     a.href = active.url;
-    a.download = `lumen-${active.id}.png`;
+    a.download = `Zenivra-${active.id}.png`;
     a.target = "_blank";
     a.rel = "noopener";
     document.body.appendChild(a);

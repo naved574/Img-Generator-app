@@ -8,7 +8,7 @@ import { User } from "../models/User.js";
 import { HttpError } from "../utils/httpError.js";
 import { createCreditAccount } from "./credit.service.js";
 
-const REFRESH_COOKIE = "lumen_refresh";
+const REFRESH_COOKIE = "zenivra_refresh";
 
 type TokenPayload = { sub: string; email: string };
 

@@ -1,8 +1,8 @@
-# Lumen — AI Creator Platform
+# Zenivra — AI Creator Platform
 
 > Affordable, community-driven AI image and video generation for creators and teams.
 
-Lumen is an AI creator ecosystem combining image generation, a public gallery, a marketplace for prompts and styles, and creator tools.
+Zenivra is an AI creator ecosystem combining image generation, a public gallery, a marketplace for prompts and styles, and creator tools.
 
 ## Pages
 - [Home](/): Product landing, live feed, pricing overview

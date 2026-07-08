@@ -82,7 +82,7 @@ export default function VoicePage() {
                 <Textarea
                   value={text}
                   onChange={(e) => setText(e.target.value.slice(0, MAX))}
-                  placeholder="Welcome to Lumen. Today we'll explore what creative AI can do…"
+                  placeholder="Welcome to Zenivra. Today we'll explore what creative AI can do…"
                   className="mt-2 min-h-40 resize-none"
                 />
               </div>

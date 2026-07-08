@@ -5,7 +5,7 @@ export const FAQ: FaqCategory[] = [
   {
     title: "Getting Started",
     items: [
-      { q: "What is Lumen?", a: "Lumen is a creator-first AI platform for generating images, video, voice and more — all in one place." },
+      { q: "What is Zenivra?", a: "Zenivra is a creator-first AI platform for generating images, video, voice and more — all in one place." },
       { q: "Do I need an account?", a: "Yes. Sign up with email or Google to get 50 free credits that refresh every 24 hours." },
       { q: "Is there a free plan?", a: "Yes. The free plan includes a daily allowance of credits and access to all core tools." },
     ],

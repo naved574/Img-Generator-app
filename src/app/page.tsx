@@ -170,12 +170,12 @@ export default function LandingPage() {
 
         <div className="mx-auto max-w-7xl px-6 pt-24 pb-20 md:pt-36 md:pb-32">
           <div className="max-w-3xl">
-            <span className="hero-eyebrow font-mono inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">
+            {/* <span className="hero-eyebrow font-mono inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">
               <span className="eyebrow-dot h-1.5 w-1.5 rounded-full bg-foreground" />
               Now in public beta · 50 free credits daily
-            </span>
-            <h1 className="hero-title mt-8 text-5xl font-display font-semibold leading-[1.05] tracking-tight md:text-7xl text-balance">
-              {splitWords("AI image generation,")}
+            </span> */}
+            <h1 className="hero-title mt-4 text-5xl font-display font-semibold leading-[1.05] tracking-tight md:text-7xl text-balance">
+              {splitWords("Gen with Zenivra,")}
               <br />
               <span className="text-muted-foreground">{splitWords("built for creators.")}</span>
             </h1>
@@ -233,7 +233,7 @@ export default function LandingPage() {
       <section className="mx-auto max-w-7xl px-6 py-24">
         <div className="max-w-2xl">
           <p className="scroll-fade font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            Why Lumen
+            Why Zenivra
           </p>
           <h2 className="scroll-heading mt-4 text-4xl font-display font-semibold tracking-tight md:text-5xl">
             {splitWords("Not another image generator.")}
