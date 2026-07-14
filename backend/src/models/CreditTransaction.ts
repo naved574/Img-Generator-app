@@ -11,6 +11,8 @@ const creditTransactionSchema = new Schema(
   { timestamps: true },
 );
 
+creditTransactionSchema.index({ userId: 1, createdAt: -1 });
+
 export type CreditTransactionDocument = InferSchemaType<typeof creditTransactionSchema> & {
   _id: Types.ObjectId;
   userId: Types.ObjectId;

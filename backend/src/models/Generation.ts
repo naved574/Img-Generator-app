@@ -10,14 +10,25 @@ const generationSchema = new Schema(
     seed: { type: Number, default: null },
     cfg: { type: Number, default: null },
     nsfw: { type: Boolean, default: false },
-    imageUrl: { type: String, required: true },
-    cloudinaryPublicId: { type: String, required: true },
+    imageUrl: { type: String, default: null },
+    cloudinaryPublicId: { type: String, default: null },
     isFavorite: { type: Boolean, default: false },
     isPublic: { type: Boolean, default: false },
     creditsSpent: { type: Number, required: true },
+    jobId: { type: String, required: true, unique: true, index: true },
+    idempotencyKey: { type: String, default: null },
+    status: { type: String, enum: ["queued", "processing", "completed", "failed", "cancelled"], default: "queued", index: true },
+    failureReason: { type: String, default: null },
+    startedAt: { type: Date, default: null },
+    completedAt: { type: Date, default: null },
   },
   { timestamps: true },
 );
+
+generationSchema.index({ userId: 1, createdAt: -1 });
+generationSchema.index({ userId: 1, isFavorite: 1, createdAt: -1 });
+generationSchema.index({ isPublic: 1, createdAt: -1 });
+generationSchema.index({ userId: 1, idempotencyKey: 1 }, { unique: true, sparse: true });
 
 export type GenerationDocument = InferSchemaType<typeof generationSchema> & {
   _id: Types.ObjectId;

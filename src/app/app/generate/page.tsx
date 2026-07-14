@@ -27,7 +27,7 @@ import { ImageViewer, type ViewerImage } from "@/features/generate";
 import { useResetCountdown } from "@/hooks/useResetCountdown";
 import {
   deleteGeneration,
-  generateImage,
+  generateAndWait,
   listMyGenerations,
   toggleFavorite,
   togglePublic,
@@ -52,13 +52,13 @@ export default function GeneratePage() {
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
 
   const viewerImages: ViewerImage[] = useMemo(
-    () => (gens.data ?? []).map((g) => ({ id: g.id, url: g.image_url, prompt: g.prompt })),
+    () => (gens.data ?? []).filter((g) => g.image_url).map((g) => ({ id: g.id, url: g.image_url as string, prompt: g.prompt })),
     [gens.data],
   );
 
   const generate = useMutation({
     mutationFn: () =>
-      generateImage({
+      generateAndWait({
         prompt: gen.prompt,
         negative_prompt: gen.negativePrompt || null,
         aspect_ratio: gen.aspectRatio,
@@ -286,13 +286,13 @@ export default function GeneratePage() {
                         className="group relative cursor-zoom-in overflow-hidden rounded-xl border border-border bg-surface"
                         onClick={() => setViewerIndex(idx)}
                       >
-                        <img
-                          src={g.image_url}
-                          alt={g.prompt}
-                          className="w-full object-cover"
-                          style={{ aspectRatio: css }}
-                          loading="lazy"
-                        />
+                        {g.image_url ? (
+                          <img src={g.image_url} alt={g.prompt} className="w-full object-cover" style={{ aspectRatio: css }} loading="lazy" />
+                        ) : (
+                          <div className="grid w-full place-items-center bg-surface-elevated text-xs text-muted-foreground" style={{ aspectRatio: css }}>
+                            {g.status === "failed" ? "Generation failed" : "Generating…"}
+                          </div>
+                        )}
                         <div className="absolute right-2 top-2 rounded-full bg-black/60 p-1.5 text-white opacity-0 transition-opacity group-hover:opacity-100">
                           <Maximize2 className="h-3.5 w-3.5" />
                         </div>
@@ -331,7 +331,7 @@ export default function GeneratePage() {
                               />
                             </button>
                             <a
-                              href={g.image_url}
+                              href={g.image_url ?? "#"}
                               download
                               className="rounded p-1.5 text-white/80 hover:bg-white/10"
                               aria-label="Download"

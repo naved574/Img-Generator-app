@@ -35,19 +35,53 @@ export class ApiError extends Error {
 
 type ApiOptions = Omit<RequestInit, "body"> & {
   body?: unknown;
+  timeoutMs?: number;
+  retry?: boolean;
 };
 
+let refreshPromise: Promise<boolean> | null = null;
+
+async function refreshAccessToken() {
+  if (refreshPromise) return refreshPromise;
+  refreshPromise = fetch(`${API_BASE_URL}/api/auth/me`, { credentials: "include" })
+    .then(async (response) => {
+      if (!response.ok) return false;
+      const session = (await response.json()) as { accessToken: string };
+      setAccessToken(session.accessToken);
+      return true;
+    })
+    .catch(() => false)
+    .finally(() => { refreshPromise = null; });
+  return refreshPromise;
+}
+
 export async function api<T>(path: string, options: ApiOptions = {}): Promise<T> {
+  const { timeoutMs = 20_000, retry = false, ...requestOptions } = options;
   const headers = new Headers(options.headers);
-  if (options.body !== undefined) headers.set("Content-Type", "application/json");
+  if (requestOptions.body !== undefined) headers.set("Content-Type", "application/json");
   if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, {
+    ...requestOptions,
+    signal: requestOptions.signal ?? controller.signal,
     credentials: "include",
     headers,
-    body: options.body === undefined ? undefined : JSON.stringify(options.body),
-  });
+    body: requestOptions.body === undefined ? undefined : JSON.stringify(requestOptions.body),
+    });
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") throw new ApiError("Request timed out. Please try again.", 408);
+    throw error;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+
+  if (response.status === 401 && accessToken && path !== "/api/auth/me" && !retry && await refreshAccessToken()) {
+    return api<T>(path, { ...options, retry: true });
+  }
 
   const contentType = response.headers.get("content-type") ?? "";
   const payload = contentType.includes("application/json")

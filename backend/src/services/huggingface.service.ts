@@ -11,9 +11,10 @@ export async function generateImageWithHuggingFace(opts: {
   aspectRatio: (typeof aspectRatios)[number];
   seed?: number | null;
   cfg?: number | null;
+  timeoutMs?: number;
 }) {
   const spec = aspectSpecs[opts.aspectRatio];
-  const result = await client.textToImage({
+  const request = client.textToImage({
     provider: "replicate", // ya "wavespeed"
     model: opts.model,
     inputs: opts.prompt,
@@ -25,6 +26,10 @@ export async function generateImageWithHuggingFace(opts: {
       guidance_scale: opts.cfg ?? undefined,
     },
   });
+  const result = await Promise.race([
+    request,
+    new Promise<never>((_, reject) => setTimeout(() => reject(new Error("Image provider timed out")), opts.timeoutMs ?? 180_000)),
+  ]);
 
   const blob = result as unknown as Blob;
   const arrayBuffer = await blob.arrayBuffer();

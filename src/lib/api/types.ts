@@ -34,12 +34,17 @@ export type Generation = {
   seed: number | null;
   cfg: number | null;
   nsfw: boolean;
-  image_url: string;
+  image_url: string | null;
   is_favorite: boolean;
   is_public: boolean;
   credits_spent: number;
   created_at: string;
+  status: "queued" | "processing" | "completed" | "failed" | "cancelled";
+  failure_reason: string | null;
+  job_id: string;
 };
+
+export type GenerationPage = { items: Generation[]; next_cursor: string | null };
 
 export type DashboardStats = {
   totalImages: number;

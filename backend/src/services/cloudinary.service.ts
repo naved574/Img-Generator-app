@@ -9,9 +9,11 @@ cloudinary.config({
 
 export function uploadImageBuffer(buffer: Buffer, folder: string): Promise<UploadApiResponse> {
   return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => reject(new Error("Image upload timed out")), 60_000);
     const stream = cloudinary.uploader.upload_stream(
       { folder, resource_type: "image" },
       (error, result) => {
+        clearTimeout(timeout);
         if (error || !result) reject(error ?? new Error("Cloudinary upload failed"));
         else resolve(result);
       },

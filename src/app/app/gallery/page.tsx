@@ -48,7 +48,7 @@ export default function GalleryPage() {
           <div className="mt-8 columns-2 gap-3 md:columns-3 lg:columns-4 [&>*]:mb-3 [&>*]:break-inside-avoid">
             {gens.data.map((g) => (
               <div key={g.id} className="overflow-hidden rounded-xl border border-border">
-                <img src={g.image_url} alt={g.prompt} className="w-full" loading="lazy" />
+                {g.image_url ? <img src={g.image_url} alt={g.prompt} className="w-full" loading="lazy" /> : <div className="grid aspect-square place-items-center text-xs text-muted-foreground">{g.status}</div>}
               </div>
             ))}
           </div>

@@ -43,6 +43,9 @@ const OriginListSchema = z
 const EnvSchema = z.object({
   PORT: z.coerce.number().int().positive().default(4000),
   CLIENT_ORIGIN: OriginListSchema,
+  REDIS_URL: z.string().url().default("redis://127.0.0.1:6379"),
+  API_REQUEST_TIMEOUT_MS: z.coerce.number().int().positive().default(15_000),
+  GENERATION_JOB_TIMEOUT_MS: z.coerce.number().int().positive().default(180_000),
   MONGODB_URI: z.string().min(1),
   JWT_ACCESS_SECRET: z.string().min(32),
   JWT_REFRESH_SECRET: z.string().min(32),

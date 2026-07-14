@@ -1,6 +1,11 @@
 import { z } from "zod";
 
 export const aspectRatios = ["1:1", "16:9", "9:16", "4:3", "3:4", "21:9"] as const;
+export const generationModels = [
+  "black-forest-labs/FLUX.1-dev",
+  "stabilityai/stable-diffusion-xl-base-1.0",
+  "runwayml/stable-diffusion-v1-5",
+] as const;
 
 export const aspectSpecs: Record<(typeof aspectRatios)[number], { width: number; height: number; label: string }> = {
   "1:1": { width: 1024, height: 1024, label: "Square" },
@@ -19,7 +24,7 @@ export const generateImageSchema = z.object({
   cfg: z.number().min(0).max(20).nullable().optional(),
   nsfw: z.boolean().default(false),
   is_public: z.boolean().default(false),
-  model: z.string().trim().min(1).max(200).default("black-forest-labs/FLUX.1-dev"),
+  model: z.enum(generationModels).default("black-forest-labs/FLUX.1-dev"),
 });
 
 export const listGenerationsSchema = z.object({
@@ -28,6 +33,7 @@ export const listGenerationsSchema = z.object({
     .enum(["true", "false"])
     .optional()
     .transform((value) => value === "true"),
+  cursor: z.string().datetime().optional(),
 });
 
 export const booleanPatchSchema = z.object({

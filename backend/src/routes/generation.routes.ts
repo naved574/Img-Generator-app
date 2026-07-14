@@ -1,11 +1,12 @@
 import { Router } from "express";
+import { randomUUID } from "node:crypto";
 import { env } from "../config/env.js";
 import { requireAuth, type AuthedRequest } from "../middleware/auth.js";
-import { generationRateLimit } from "../middleware/rateLimit.js";
+import { generationRateLimit, pollingRateLimit } from "../middleware/rateLimit.js";
 import { Generation } from "../models/Generation.js";
-import { assertCanSpend, spendCredits } from "../services/credit.service.js";
-import { deleteImage, uploadImageBuffer } from "../services/cloudinary.service.js";
-import { generateImageWithHuggingFace } from "../services/huggingface.service.js";
+import { refundCredits, reserveCredits } from "../services/credit.service.js";
+import { deleteImage } from "../services/cloudinary.service.js";
+import { generationQueue } from "../queue/generation.queue.js";
 import { booleanPatchSchema, generateImageSchema, listGenerationsSchema } from "../validators/generation.schema.js";
 import { assertFound, HttpError } from "../utils/httpError.js";
 
@@ -25,6 +26,9 @@ function serializeGeneration(g: any) {
     is_favorite: g.isFavorite,
     is_public: g.isPublic,
     credits_spent: g.creditsSpent,
+    status: g.status,
+    failure_reason: g.failureReason,
+    job_id: g.jobId,
     created_at: g.createdAt?.toISOString?.() ?? new Date().toISOString(),
   };
 }
@@ -37,8 +41,11 @@ generationRouter.get("/", async (req, res, next) => {
     const query = listGenerationsSchema.parse(req.query);
     const filter: Record<string, unknown> = { userId: user.objectId };
     if (query.favoritesOnly) filter.isFavorite = true;
-    const rows = await Generation.find(filter).sort({ createdAt: -1 }).limit(query.limit);
-    res.json(rows.map(serializeGeneration));
+    if (query.cursor) filter.createdAt = { $lt: new Date(query.cursor) };
+    const rows = await Generation.find(filter).sort({ createdAt: -1 }).limit(query.limit + 1).lean();
+    const hasMore = rows.length > query.limit;
+    const items = rows.slice(0, query.limit);
+    res.json({ items: items.map(serializeGeneration), next_cursor: hasMore ? items.at(-1)?.createdAt?.toISOString() ?? null : null });
   } catch (error) {
     next(error);
   }
@@ -48,18 +55,12 @@ generationRouter.post("/", generationRateLimit, async (req, res, next) => {
   try {
     const { user } = req as AuthedRequest;
     const data = generateImageSchema.parse(req.body);
-    await assertCanSpend(user.objectId, env.CREDITS_PER_IMAGE);
-
-    const generated = await generateImageWithHuggingFace({
-      prompt: data.prompt,
-      negativePrompt: data.negative_prompt,
-      model: data.model,
-      aspectRatio: data.aspect_ratio,
-      seed: data.seed,
-      cfg: data.cfg,
-    });
-
-    const uploaded = await uploadImageBuffer(generated.buffer, `zenivra/generations/${user.id}`);
+    const idempotencyKey = req.get("Idempotency-Key")?.trim().slice(0, 128) || null;
+    if (idempotencyKey) {
+      const existing = await Generation.findOne({ userId: user.objectId, idempotencyKey }).lean();
+      if (existing) return res.status(202).json(serializeGeneration(existing));
+    }
+    const jobId = idempotencyKey ? `${user.id}:${idempotencyKey}` : randomUUID();
     const doc = await Generation.create({
       userId: user.objectId,
       prompt: data.prompt,
@@ -69,22 +70,37 @@ generationRouter.post("/", generationRateLimit, async (req, res, next) => {
       seed: data.seed ?? null,
       cfg: data.cfg ?? null,
       nsfw: data.nsfw,
-      imageUrl: uploaded.secure_url,
-      cloudinaryPublicId: uploaded.public_id,
+      imageUrl: null,
+      cloudinaryPublicId: null,
       isPublic: data.is_public,
       creditsSpent: env.CREDITS_PER_IMAGE,
+      jobId: jobId ?? undefined,
+      idempotencyKey,
+      status: "queued",
     });
-
     try {
-      await spendCredits({ userId: user.objectId, amount: env.CREDITS_PER_IMAGE, generationId: doc._id });
+      await reserveCredits({ userId: user.objectId, amount: env.CREDITS_PER_IMAGE, generationId: doc._id });
+      await generationQueue.add("generate" as never, { generationId: String(doc._id), userId: user.id, prompt: data.prompt, negativePrompt: data.negative_prompt, model: data.model, aspectRatio: data.aspect_ratio, seed: data.seed, cfg: data.cfg }, { jobId: doc.jobId.replace(/:/g, "-") });
     } catch (error) {
-      await Promise.all([
-        Generation.deleteOne({ _id: doc._id }),
-        deleteImage(uploaded.public_id),
-      ]);
+      await Generation.deleteOne({ _id: doc._id });
+      await refundCredits({ userId: user.objectId, amount: env.CREDITS_PER_IMAGE, generationId: doc._id }).catch(() => undefined);
       throw error;
     }
-    res.status(201).json(serializeGeneration(doc));
+    res.status(202).json(serializeGeneration(doc));
+  } catch (error) {
+    if (error instanceof Error && (error as { code?: number }).code === 11000 && req.get("Idempotency-Key")) {
+      const existing = await Generation.findOne({ userId: (req as AuthedRequest).user.objectId, idempotencyKey: req.get("Idempotency-Key") }).lean();
+      if (existing) return res.status(202).json(serializeGeneration(existing));
+    }
+    next(error);
+  }
+});
+
+generationRouter.get("/:id", pollingRateLimit, async (req, res, next) => {
+  try {
+    const { user } = req as AuthedRequest;
+    const doc = assertFound(await Generation.findOne({ _id: req.params.id, userId: user.objectId }).lean(), "Generation not found");
+    res.json(serializeGeneration(doc));
   } catch (error) {
     next(error);
   }

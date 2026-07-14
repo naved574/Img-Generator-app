@@ -42,6 +42,25 @@ export async function assertCanSpend(userId: Types.ObjectId, amount: number) {
   return account;
 }
 
+export async function reserveCredits(opts: { userId: Types.ObjectId; amount: number; generationId: Types.ObjectId }) {
+  await refreshDailyCredits(opts.userId);
+  const account = await CreditAccount.findOneAndUpdate(
+    { userId: opts.userId, balance: { $gte: opts.amount } },
+    { $inc: { balance: -opts.amount } },
+    { new: true },
+  );
+  if (!account) throw new HttpError(402, "Not enough credits.");
+  await CreditTransaction.create({ userId: opts.userId, delta: -opts.amount, reason: "image_generation_reserved", generationId: opts.generationId, balanceAfter: account.balance });
+  return account;
+}
+
+export async function refundCredits(opts: { userId: Types.ObjectId; amount: number; generationId: Types.ObjectId }) {
+  const account = await CreditAccount.findOneAndUpdate({ userId: opts.userId }, { $inc: { balance: opts.amount } }, { new: true });
+  if (!account) throw new HttpError(404, "Credit account not found.");
+  await CreditTransaction.create({ userId: opts.userId, delta: opts.amount, reason: "image_generation_refund", generationId: opts.generationId, balanceAfter: account.balance });
+  return account;
+}
+
 export async function spendCredits(opts: {
   userId: Types.ObjectId;
   amount: number;

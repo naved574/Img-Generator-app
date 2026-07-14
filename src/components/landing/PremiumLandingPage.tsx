@@ -66,27 +66,7 @@ const heroPreviewImages = [image12, image6, image15, image3, image10] as StaticI
 const showcaseVideo = "/landing/video-showcase.mp4";
 const bgRemovalVideo = "/landing/bg-remover.mp4";
 
-const rainTiles = Array.from({ length: 210 }, (_, index) => {
-  const depth = (index % 7) + 1;
-  const column = (index * 37) % 100;
-  const start = -34 - ((index * 19) % 90);
-  const end = 114 + ((index * 23) % 80);
-  const size = 64 + ((index * 29) % 132);
-
-  return {
-    id: index,
-    src: galleryImages[index % galleryImages.length],
-    left: column,
-    top: start,
-    end,
-    size,
-    depth,
-    rotate: ((index * 43) % 54) - 27,
-    drift: ((index * 17) % 56) - 28,
-    blur: index % 5 === 0 ? 2.5 : index % 9 === 0 ? 1.25 : 0,
-    opacity: 0.46 + (depth / 7) * 0.46,
-  };
-});
+const showcaseTiles = galleryImages.slice(0, 8);
 
 const stats = [
   ["1.2M+", "images generated this week"],
@@ -159,6 +139,7 @@ function VideoShowcase() {
         muted
         loop
         playsInline
+        preload="metadata"
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/5" />
       <button
@@ -263,10 +244,8 @@ function VideoComparison() {
         muted
         loop
         playsInline
+        preload="none"
       />
-      <div className="compare-after">
-        <video className="h-full w-full object-cover" src={bgRemovalVideo} autoPlay muted loop playsInline />
-      </div>
       <div className="compare-divider">
         <span />
       </div>
@@ -286,7 +265,7 @@ export function PremiumLandingPage() {
 
     const ctx = gsap.context(() => {
       if (reduceMotion) {
-        gsap.set([".zen-char", ".zen-word > span", ".section-reveal", ".rain-tile"], {
+        gsap.set([".zen-char", ".zen-word > span", ".section-reveal"], {
           clearProps: "all",
           opacity: 1,
         });
@@ -382,37 +361,6 @@ export function PremiumLandingPage() {
         scrollTrigger: { trigger: ".feature-glass-grid", start: "top 82%" },
       });
 
-      gsap.utils.toArray<HTMLElement>(".rain-tile").forEach((tile) => {
-        const speed = Number(tile.dataset.speed ?? 1);
-        const end = Number(tile.dataset.end ?? 130);
-        const drift = Number(tile.dataset.drift ?? 0);
-
-        gsap.fromTo(
-          tile,
-          {
-            y: "-42vh",
-            x: 0,
-            opacity: 0,
-            scale: 0.62,
-            rotate: Number(tile.dataset.rotate ?? 0),
-          },
-          {
-            y: `${end}vh`,
-            x: drift,
-            opacity: Number(tile.dataset.opacity ?? 0.7),
-            scale: 0.84 + speed * 0.07,
-            rotate: `+=${80 + speed * 18}`,
-            ease: "none",
-            scrollTrigger: {
-              trigger: ".image-rain-section",
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 0.8,
-            },
-          },
-        );
-      });
-
       gsap.to(".footer-glow", {
         rotate: 360,
         duration: 24,
@@ -493,7 +441,7 @@ export function PremiumLandingPage() {
                   alt=""
                   className="h-full w-full rounded-md object-cover"
                   sizes="280px"
-                  priority={index < 2}
+                  priority={index === 0}
                 />
               </div>
             ))}
@@ -519,8 +467,8 @@ export function PremiumLandingPage() {
         </div>
       </section>
 
-      <section className="image-rain-section relative min-h-[185vh] overflow-hidden border-y border-white/10 bg-[#070711]">
-        <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden px-6">
+      <section className="image-rain-section relative overflow-hidden border-y border-white/10 bg-[#070711] px-6 py-24 md:py-32">
+        <div className="relative mx-auto flex min-h-[620px] max-w-7xl items-center justify-center overflow-hidden rounded-3xl border border-white/10 px-6">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(34,211,238,0.16),transparent_36%),radial-gradient(circle_at_70%_70%,rgba(217,70,239,0.14),transparent_34%)]" />
           <div className="relative z-10 mx-auto max-w-4xl text-center">
             <p className="section-reveal font-mono text-xs uppercase tracking-[0.32em] text-cyan-200/80">
@@ -534,26 +482,18 @@ export function PremiumLandingPage() {
               Each frame feels like another branch of your imagination.
             </p>
           </div>
-          <div className="pointer-events-none absolute inset-0">
-            {rainTiles.map((tile) => (
+          <div className="pointer-events-none absolute inset-0 opacity-75">
+            {showcaseTiles.map((src, index) => (
               <div
-                key={tile.id}
-                className="rain-tile absolute rounded-md border border-white/10 bg-white/[0.04] p-1 shadow-[0_18px_44px_rgba(0,0,0,0.45)] backdrop-blur-sm will-change-transform"
-                data-speed={tile.depth}
-                data-end={tile.end}
-                data-drift={tile.drift}
-                data-rotate={tile.rotate}
-                data-opacity={tile.opacity}
+                key={src.src}
+                className="absolute aspect-square w-[clamp(72px,12vw,160px)] rounded-xl border border-white/10 bg-white/[0.04] p-1 shadow-[0_18px_44px_rgba(0,0,0,0.45)] transition-transform duration-700"
                 style={{
-                  left: `${tile.left}%`,
-                  top: `${tile.top}%`,
-                  width: `clamp(54px, ${tile.size / 12}vw, ${tile.size}px)`,
-                  height: `clamp(54px, ${tile.size / 12}vw, ${tile.size}px)`,
-                  filter: tile.blur ? `blur(${tile.blur}px)` : undefined,
-                  zIndex: tile.depth,
+                  left: `${[5, 18, 76, 88, 10, 82, 24, 68][index]}%`,
+                  top: `${[12, 68, 16, 56, 48, 72, 6, 45][index]}%`,
+                  transform: `rotate(${[-8, 7, 10, -6, 5, -9, 11, -4][index]}deg)`,
                 }}
               >
-                <Image src={tile.src} alt="" className="h-full w-full rounded-[5px] object-cover" sizes="160px" />
+                <Image src={src} alt="" className="h-full w-full rounded-lg object-cover" sizes="160px" />
               </div>
             ))}
           </div>
