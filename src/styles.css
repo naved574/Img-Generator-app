@@ -371,8 +371,7 @@
   }
 
   .compare-base,
-  .compare-after,
-  .compare-video-before {
+  .compare-after{
     position: absolute;
     inset: 0;
     height: 100%;
@@ -385,15 +384,11 @@
     filter: blur(4px) saturate(0.72) contrast(0.82);
   }
 
-  .compare-video-before {
-    transform: scale(1.04);
-    filter: saturate(0.45) contrast(0.82) blur(2px);
-    opacity: 0.82;
-    mix-blend-mode: luminosity;
-  }
+ 
 
   .compare-after {
-    clip-path: inset(0 calc(100% - var(--split)) 0 0);
+    /* clip-path: inset(0 calc(100% - var(--split)) 0 0); */
+    clip-path: inset(0 0 0 var(--split));
   }
 
   .compare-divider {
@@ -459,11 +454,11 @@
   }
 
   .compare-label-left {
-    left: 1rem;
+    left: 2rem;
   }
 
   .compare-label-right {
-    right: 1rem;
+    right: 2rem;
   }
 
   .compare-video {

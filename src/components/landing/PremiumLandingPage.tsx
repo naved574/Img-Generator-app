@@ -36,7 +36,7 @@ import image13 from "@/assets/sourse/image13.webp";
 import image14 from "@/assets/sourse/image14.webp";
 import image15 from "@/assets/sourse/image15.webp";
 import image16 from "@/assets/sourse/image16.webp";
-import upscaleImage from "@/assets/sourse/4k upscale img/Upscale img.png";
+import upscaleImage from "@/assets/sourse/4k upscale img/Upscale img2.webp";
 import { MarketingHeader } from "@/components/site/MarketingHeader";
 
 if (typeof window !== "undefined") {
@@ -161,21 +161,22 @@ function VideoShowcase() {
 }
 
 function ImageComparison({ image, kind }: { image: StaticImageData; kind: "upscale" }) {
-  const [split, setSplit] = useState(58);
+  const [split, setSplit] = useState(50);
   const shellRef = useRef<HTMLDivElement>(null);
   const style = { "--split": `${split}%` } as CSSProperties;
+  
 
   function updateSplit(event: PointerEvent<HTMLDivElement>) {
     const bounds = shellRef.current?.getBoundingClientRect();
     if (!bounds) return;
     const next = ((event.clientX - bounds.left) / bounds.width) * 100;
-    setSplit(Math.min(88, Math.max(12, next)));
+    setSplit(Math.min(100, Math.max(0, next)));
   }
 
   return (
     <div
       ref={shellRef}
-      className="compare-shell section-reveal"
+      className={`compare-shell section-reveal `}
       style={style}
       onPointerDown={(event) => {
         event.currentTarget.setPointerCapture(event.pointerId);
@@ -205,40 +206,31 @@ function ImageComparison({ image, kind }: { image: StaticImageData; kind: "upsca
       <div className="compare-divider">
         <span />
       </div>
-      <div className="compare-label compare-label-left">Before</div>
-      <div className="compare-label compare-label-right">4K AI</div>
+      <div className="compare-label compare-label-left"
+        style={{
+          clipPath: `inset(0 ${100-split}% 0 0)`,
+        }}
+      >
+        Before
+      </div>
+
+      <div className="compare-label compare-label-right"
+        style={{
+          clipPath: `inset(0 0 0 ${split+0}%)`,
+        }}
+      >
+        After
+      </div>
     </div>
   );
 }
 
 function VideoComparison() {
-  const [split, setSplit] = useState(56);
-  const shellRef = useRef<HTMLDivElement>(null);
-  const style = { "--split": `${split}%` } as CSSProperties;
-
-  function updateSplit(event: PointerEvent<HTMLDivElement>) {
-    const bounds = shellRef.current?.getBoundingClientRect();
-    if (!bounds) return;
-    const next = ((event.clientX - bounds.left) / bounds.width) * 100;
-    setSplit(Math.min(88, Math.max(12, next)));
-  }
-
   return (
-    <div
-      ref={shellRef}
-      className="compare-shell compare-video section-reveal"
-      style={style}
-      onPointerDown={(event) => {
-        event.currentTarget.setPointerCapture(event.pointerId);
-        updateSplit(event);
-      }}
-      onPointerMove={(event) => {
-        if (event.buttons === 1) updateSplit(event);
-      }}
-    >
-      <div className="compare-checker" />
+    <div>
+
       <video
-        className="compare-base compare-video-before"
+        className="rounded-lg border border-white/10 bg-white/[0.03] object-cover shadow-[0_32px_90px_rgba(0,0,0,0.45)] backdrop-blur-xl"
         src={bgRemovalVideo}
         autoPlay
         muted
@@ -246,11 +238,7 @@ function VideoComparison() {
         playsInline
         preload="none"
       />
-      <div className="compare-divider">
-        <span />
-      </div>
-      <div className="compare-label compare-label-left">Original</div>
-      <div className="compare-label compare-label-right">Removed</div>
+
     </div>
   );
 }
@@ -376,6 +364,7 @@ export function PremiumLandingPage() {
     <main ref={root} className="zen-landing min-h-screen overflow-hidden bg-[#05050a] text-white">
       <MarketingHeader />
 
+      {/* section hero */}
       <section className="landing-hero relative isolate min-h-[calc(100vh-4rem)] overflow-hidden">
         <div className="hero-parallax absolute inset-0 -z-20">
           <div className="hero-orb absolute left-[-12%] top-[-18%] h-[34rem] w-[34rem] rounded-full bg-cyan-500/22 blur-3xl" />
@@ -387,10 +376,10 @@ export function PremiumLandingPage() {
 
         <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl items-center gap-12 px-6 py-20 lg:grid-cols-[1.02fr_0.98fr] lg:py-24">
           <div className="max-w-3xl">
-            <div className="hero-kicker inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-white/[0.06] px-3 py-1.5 text-xs font-medium text-cyan-100 shadow-[0_0_36px_rgba(34,211,238,0.18)] backdrop-blur-xl">
+            {/* <div className="hero-kicker inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-white/[0.06] px-3 py-1.5 text-xs font-medium text-cyan-100 shadow-[0_0_36px_rgba(34,211,238,0.18)] backdrop-blur-xl">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_16px_rgba(103,232,249,0.95)]" />
               AI image generation, upscaling, and background removal
-            </div>
+            </div> */}
 
             <h1 className="zenivra-title mt-6 max-w-4xl overflow-hidden text-[clamp(4rem,12vw,9.5rem)] font-semibold leading-[0.82] tracking-normal text-white">
               <span className="sr-only">Zenivra</span>
@@ -446,15 +435,16 @@ export function PremiumLandingPage() {
               </div>
             ))}
             <div className="hero-art-card absolute bottom-[10%] left-[3%] z-10 rounded-lg border border-cyan-200/20 bg-black/55 px-4 py-3 text-sm text-cyan-50 shadow-[0_0_50px_rgba(34,211,238,0.16)] backdrop-blur-2xl">
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <BadgeCheck className="h-4 w-4 text-cyan-200" />
                 <span>Prompt fidelity 98.7%</span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
       </section>
 
+      {/* section features */}
       <section className="relative z-10 mx-auto max-w-7xl px-6 py-20 md:py-28">
         <div className="feature-glass-grid grid gap-4 md:grid-cols-3">
           {featureCards.map((feature) => (
@@ -471,9 +461,7 @@ export function PremiumLandingPage() {
         <div className="relative mx-auto flex min-h-[620px] max-w-7xl items-center justify-center overflow-hidden rounded-3xl border border-white/10 px-6">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(34,211,238,0.16),transparent_36%),radial-gradient(circle_at_70%_70%,rgba(217,70,239,0.14),transparent_34%)]" />
           <div className="relative z-10 mx-auto max-w-4xl text-center">
-            <p className="section-reveal font-mono text-xs uppercase tracking-[0.32em] text-cyan-200/80">
-              image rain showcase
-            </p>
+
             <h2 className="section-title mt-5 overflow-hidden font-display text-5xl font-semibold leading-tight tracking-normal md:text-7xl">
               {splitWords("Thousands of worlds, falling into place.")}
             </h2>
@@ -500,11 +488,10 @@ export function PremiumLandingPage() {
         </div>
       </section>
 
+      {/* section video showcase */}
       <section className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="section-reveal font-mono text-xs uppercase tracking-[0.32em] text-fuchsia-200/80">
-            video showcase
-          </p>
+
           <h2 className="section-title mt-5 overflow-hidden font-display text-4xl font-semibold leading-tight tracking-normal md:text-6xl">
             {splitWords("A cinematic canvas for AI motion.")}
           </h2>
@@ -522,9 +509,7 @@ export function PremiumLandingPage() {
         <div className="absolute left-[-12%] top-[20%] h-96 w-96 rounded-full bg-cyan-400/12 blur-3xl" />
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.88fr_1.12fr]">
           <div>
-            <p className="section-reveal font-mono text-xs uppercase tracking-[0.32em] text-cyan-200/80">
-              4K image upscaler
-            </p>
+
             <h2 className="section-title mt-5 overflow-hidden font-display text-4xl font-semibold leading-tight tracking-normal md:text-6xl">
               {splitWords("Turn soft generations into gallery-grade detail.")}
             </h2>
