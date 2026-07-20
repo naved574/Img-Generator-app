@@ -8,7 +8,7 @@
 
 Create breathtaking AI-generated artwork in seconds using powerful image generation models, wrapped in a modern, fast, and beautifully crafted SaaS experience.
 
-Built with ❤️ using React, TypeScript, Vite, Tailwind CSS and modern web technologies.
+Built with ❤️ using React, Next.js, TypeScript, Vite, Tailwind CSS and modern web technologies.
 
 </p>
 
