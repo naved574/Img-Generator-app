@@ -8,7 +8,7 @@
 
 Create breathtaking AI-generated artwork in seconds using powerful image generation models, wrapped in a modern, fast, and beautifully crafted SaaS experience.
 
-Built with ❤️ using React, Next.js, TypeScript, Vite, Tailwind CSS and modern web technologies.
+Built with ❤️ using React, Next.js, TypeScript, Tailwind CSS and modern web technologies.
 
 </p>
 
@@ -42,7 +42,7 @@ Built with ❤️ using React, Next.js, TypeScript, Vite, Tailwind CSS and moder
 
 <img src="https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB">
 <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white">
-<img src="https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white">
+<img src="https://img.shields.io/badge/Next-646CFF?logo=next&logoColor=white">
 <img src="https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss&logoColor=white">
 <img src="https://img.shields.io/badge/Framer_Motion-black?logo=framer">
 <img src="https://img.shields.io/badge/GSAP-88CE02?logo=greensock&logoColor=white">
@@ -184,7 +184,7 @@ Built with modern technologies to deliver a smooth and responsive experience.
 
 **Highlights**
 
-- Vite Powered
+- Next.js Powered
 - Optimized Rendering
 - Lazy Loading
 - Smooth Navigation
@@ -610,11 +610,11 @@ npm run preview
 Create a `.env` file in the project root.
 
 ```env
-VITE_API_BASE_URL=http://localhost:5000
+Next_API_BASE_URL=http://localhost:5000
 
-VITE_HUGGINGFACE_API_KEY=your_api_key
+Next_HUGGINGFACE_API_KEY=your_api_key
 
-VITE_OPENAI_API_KEY=your_api_key
+Next_OPENAI_API_KEY=your_api_key
 ```
 
 > Never commit API keys or secrets to your repository.
@@ -704,7 +704,7 @@ Zenivra follows a set of engineering principles to keep the project maintainable
 
 # ⚡ Performance Optimizations
 
-- Vite-powered fast builds
+- Next-powered fast builds
 - Optimized asset loading
 - Lazy-loaded modules
 - Lightweight component architecture
@@ -755,11 +755,11 @@ That's it! 🎉
 Example production variables:
 
 ```env
-VITE_API_BASE_URL=https://your-api-domain.com
+Next_API_BASE_URL=https://your-api-domain.com
 
-VITE_HUGGINGFACE_API_KEY=your_key
+Next_HUGGINGFACE_API_KEY=your_key
 
-VITE_OPENAI_API_KEY=your_key
+Next_OPENAI_API_KEY=your_key
 ```
 
 ---
@@ -1085,7 +1085,7 @@ This project would not be possible without the incredible open-source ecosystem.
 Special thanks to:
 
 - React
-- Vite
+- Next.js
 - TypeScript
 - Tailwind CSS
 - Framer Motion
