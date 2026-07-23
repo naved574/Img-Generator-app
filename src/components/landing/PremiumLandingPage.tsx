@@ -434,12 +434,7 @@ export function PremiumLandingPage() {
                 />
               </div>
             ))}
-            <div className="hero-art-card absolute bottom-[10%] left-[3%] z-10 rounded-lg border border-cyan-200/20 bg-black/55 px-4 py-3 text-sm text-cyan-50 shadow-[0_0_50px_rgba(34,211,238,0.16)] backdrop-blur-2xl">
-              {/* <div className="flex items-center gap-2">
-                <BadgeCheck className="h-4 w-4 text-cyan-200" />
-                <span>Prompt fidelity 98.7%</span>
-              </div> */}
-            </div>
+            
           </div>
         </div>
       </section>
