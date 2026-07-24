@@ -142,14 +142,7 @@ function VideoShowcase() {
         preload="metadata"
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/5" />
-      <button
-        type="button"
-        onClick={togglePlayback}
-        className="landing-play-button"
-        aria-label={playing ? "Pause video showcase" : "Play video showcase"}
-      >
-        {playing ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 translate-x-0.5" />}
-      </button>
+      
       <div className="absolute bottom-5 left-5 right-5 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-white/10 bg-black/35 px-4 py-3 text-sm text-white/80 backdrop-blur-xl">
         <span className="font-mono text-xs uppercase tracking-[0.28em] text-cyan-200">
           cinematic render stream
