@@ -369,10 +369,6 @@ export function PremiumLandingPage() {
 
         <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl items-center gap-12 px-6 py-20 lg:grid-cols-[1.02fr_0.98fr] lg:py-24">
           <div className="max-w-3xl">
-            {/* <div className="hero-kicker inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-white/[0.06] px-3 py-1.5 text-xs font-medium text-cyan-100 shadow-[0_0_36px_rgba(34,211,238,0.18)] backdrop-blur-xl">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_16px_rgba(103,232,249,0.95)]" />
-              AI image generation, upscaling, and background removal
-            </div> */}
 
             <h1 className="zenivra-title mt-6 max-w-4xl overflow-hidden text-[clamp(4rem,12vw,9.5rem)] font-semibold leading-[0.82] tracking-normal text-white">
               <span className="sr-only">Zenivra</span>
